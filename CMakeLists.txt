@@ -1,15 +1,11 @@
 cmake_minimum_required(VERSION 3.26)
-project(task_2)
+project(test_task2)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 
-add_executable(task_2 main.cpp
-        Board.h
-        Random_player.h
-        Xo_board.h
-        Player.h
-        GameManager.h
+add_executable(test_task2 main.cpp
         GameManager.cpp
+        X_0_Board.cpp
         Player.cpp
-        Random_player.cpp
-        Xo_board.cpp)
+        Radom_Player.cpp
+        )
