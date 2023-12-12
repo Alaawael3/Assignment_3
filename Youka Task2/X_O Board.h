@@ -13,6 +13,7 @@ protected:
     static const int ROWS = 3;
     static const int COLUMNS = 5;
     static string boardArray[ROWS][COLUMNS];
+    int n_moves=0;
 
 public:
     // Return true  if move is valid and put it on board
@@ -26,6 +27,7 @@ public:
     virtual bool checkWin(Player* player) = 0;
     // Return true if all moves are done and no winner
     virtual void display() = 0;
+    bool is_draw(Player *player);
     // Return true if game is over
     virtual bool checkvalid(int x,int y) = 0;
 };
@@ -37,6 +39,8 @@ class Player {
 protected:
     string name;
     string symbol;
+
+
 public:
     // Two constructors to initiate player
     // Give player a symbol to use in playing
@@ -50,10 +54,10 @@ public:
     virtual void get_move(int& x, int& y);
     // Give player info as a string
     string to_string();
+
     // Get symbol used by player
     string get_symbol();
 };
-
 ///////////////////////////////////////////
 // This class represents a 3 x 3 board
 // used in X_O game
