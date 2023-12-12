@@ -25,10 +25,12 @@ void GameManager::runGame() {
         st1:
         currentPlayer->get_move(x,y);
         if (!board->checkvalid(x,y)) goto st1;
-
         board->update_board(x,y,currentPlayer->get_symbol());
-
+        if(board->is_draw(currentPlayer)) {
+            break;
+        }
         if (board->checkWin(currentPlayer)) {
+            board->display();
             cout << currentPlayer->to_string() << " wins!\n" << std::endl;
             break;
         }
@@ -40,7 +42,9 @@ void GameManager::runGame() {
         if (!board->checkvalid(x,y)) goto start;
         board->display();
         board->update_board(x,y,currentPlayer->get_symbol());
-
+        if(board->is_draw(currentPlayer)) {
+            break;
+        }
         if (board->checkWin(currentPlayer)) {
             board->display();
             cout << "computer wins you are loser :)\n" << endl;
