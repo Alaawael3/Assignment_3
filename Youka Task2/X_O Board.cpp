@@ -76,7 +76,7 @@ void X_O_Board::update_board (int x, int y, string mark){
 }
 bool Board::is_draw(Player *player) {
     if(n_moves==9&& !checkWin(player)){
-        cout<<"DRAW"<<endl;
+        cout<<"OH What a tough game. It ends with DRAW!"<<endl;
         return true;
     }
     else{
