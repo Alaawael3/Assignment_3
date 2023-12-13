@@ -11,6 +11,7 @@ Random_Player::Random_Player (string symbol, int dimension):Player(symbol)
     this->dimension = dimension;
     this->name = "Random Computer Player";
     cout << "My names is " << name << endl;
+    srand(unsigned(time(0)));
 }
 
 // Generate a random move
