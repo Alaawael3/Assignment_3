@@ -27,28 +27,28 @@ void GameManager::runGame() {
         if (!board->checkvalid(x,y)) goto st1;
         board->update_board(x,y,currentPlayer->get_symbol());
         if(board->is_draw(currentPlayer)) {
-            break;
+            return;
         }
         if (board->checkWin(currentPlayer)) {
             board->display();
             cout << currentPlayer->to_string() << " wins!\n" << std::endl;
-            break;
+            return;
         }
-        if (!board->validcells()) break;
-
+        if (!board->validcells()) return;
+        board->display();
         currentPlayer = player[1];
         start:
         currentPlayer->get_move(x,y);
         if (!board->checkvalid(x,y)) goto start;
-        board->display();
+
         board->update_board(x,y,currentPlayer->get_symbol());
         if(board->is_draw(currentPlayer)) {
-            break;
+            return;
         }
         if (board->checkWin(currentPlayer)) {
             board->display();
-            cout << "computer wins you are loser :)\n" << endl;
-            break;
+            cout << currentPlayer->to_string()<< " wins you are loser :)\n" << endl;
+            return;
         }
         if (!board->validcells()) break;
     }
