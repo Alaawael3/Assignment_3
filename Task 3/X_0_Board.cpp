@@ -390,7 +390,13 @@ bool X_O_Board::checkWin_3() {
             break;
         }
     }
+    if(allCellsFilledExceptOne&(player1Count>player2Count)){
+        cout<<"player X wins by "<<player1Count<<" sets."<<endl;
+    }
+    else if(allCellsFilledExceptOne&(player2Count>player1Count)){
+        cout<<"player X wins by "<<player2Count<<" sets."<<endl;
+    }
 
 // Return true if all cells are filled except one and either player has a three-in-a-row
-    return (allCellsFilledExceptOne && (player1Count > 0 || player2Count > 0));
+    return (allCellsFilledExceptOne && (player1Count > player2Count || player2Count > player1Count ));
 }

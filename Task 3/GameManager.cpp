@@ -34,7 +34,10 @@ void GameManager::runGame_1() {
             cout << currentPlayer->to_string() << " wins!\n" << std::endl;
             return;
         }
-        if (!board->validcells_1()) return;
+        if (!board->validcells_1()) {
+            cout<<"it is a tie";
+            return;
+        }
         board->display_1();
         currentPlayer = player[1];
         start:
@@ -74,7 +77,10 @@ void GameManager::runGame_2() {
             cout << currentPlayer->to_string() << " wins!\n" << std::endl;
             break;
         }
-        if (!board->validcells_2()) break;
+        if (!board->validcells_2()) {
+            cout<<"it is a tie";
+            break;
+        }
 
 
         currentPlayer = player[1];
@@ -92,7 +98,10 @@ void GameManager::runGame_2() {
             cout << "computer wins you are loser :)\n" << endl;
             break;
         }
-        if (!board->validcells_2()) break;
+        if (!board->validcells_2()) {
+            cout<<"it is a tie";
+            break;
+        }
     }
     cout << "Game over!! \n";
 }
