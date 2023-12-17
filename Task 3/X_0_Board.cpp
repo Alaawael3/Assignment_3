@@ -1,5 +1,5 @@
 //
-// Created by lolow on 12/6/2023.
+// Created by lolow on 12/17/2023.
 //
 #include "Board.h"
 #include <iostream>
@@ -68,7 +68,7 @@ X_O_Board::X_O_Board() {
 bool X_O_Board:: validcells_1(){
     for (int r = 0; r < ROWS; ++r) {
         for (int c = 0; c < COLUMNS; ++c) {
-            if (boardArray[r][c]!="X"||boardArray[r][c]!="O") return 1;
+            if (boardArray[r][c]!="  X "||boardArray[r][c]!="  O ") return 1;
         }
     }
     return 0;
@@ -88,7 +88,7 @@ bool X_O_Board::game_is_over() const {
 }
 
 bool X_O_Board::checkvalid(int x,int y) {
-    if(boardArray[x][y]=="x"||boardArray[x][y]=="o"){
+    if(boardArray[x][y]=="  X "||boardArray[x][y]=="  O "){
         return 0;
     }
     if(x==0&&y==2) {
@@ -123,11 +123,10 @@ bool X_O_Board::checkvalid(int x,int y) {
 }
 
 bool X_O_Board::checkvalid_2(int x,int y) {
-    if ((x >= 0 && x < ROWS_2 &&
-         y >= 0 && y < COLUMNS_2 &&
-         (boardArray_2[x][y] != "x" && boardArray_2[x][y] != "o") &&
-         (boardArray_2[x + 1][y] == "x" || boardArray_2[x + 1][y] == "o"))
-        || (x == ROWS_2-1 && (boardArray_2[x][y] != "x" && boardArray_2[x][y] != "o")))
+    if ((x == ROWS_2 - 1 && y >= 0 && y < COLUMNS_2 && (boardArray_2[x][y] != "X" && boardArray_2[x][y] != "O"))
+        || ((x >= 0 && x < ROWS_2 - 1 && y >= 0 && y < COLUMNS_2 &&
+             (boardArray_2[x][y] != "X" && boardArray_2[x][y] != "O") &&
+             (boardArray_2[x + 1][y] == "X" || boardArray_2[x + 1][y] == "O"))))
         return 1;
     else return 0;
 }
@@ -136,10 +135,11 @@ bool X_O_Board::checkvalid_2(int x,int y) {
 
 void X_O_Board::update_board (int x, int y, string mark){
     boardArray[x][y]=mark;
+    n_moves++;
 }
 
 void X_O_Board::update_board_2 (int x, int y, string mark){
-        boardArray_2[x][y]=mark;
+    boardArray_2[x][y]=mark;
 }
 
 bool X_O_Board::update_board_3(int x, int y, string mark) {
@@ -155,10 +155,11 @@ bool X_O_Board::update_board_3(int x, int y, string mark) {
 
 
 
-void X_O_Board::display_1(){
-    cout<<"           "<<boardArray[0][2]<<endl;
-    cout<<"     "<<boardArray[1][1]<<" "<<boardArray[1][2]<<" "<<boardArray[1][3]<<" "<<endl;
-    cout<<boardArray[2][0]<<" "<<boardArray[2][1]<<" "<<boardArray[2][2]<<" "<<boardArray[2][3]<<" "<<boardArray[2][4]<<endl;
+void X_O_Board::display_1() {
+    cout << "            " << boardArray[0][2] << endl;
+    cout << "      " << boardArray[1][1] << " " << boardArray[1][2] << " " << boardArray[1][3] << " " << endl;
+    cout << boardArray[2][0] << " " << boardArray[2][1] << " " << boardArray[2][2] << " " << boardArray[2][3] << " "
+         << boardArray[2][4] << endl;
 }
 
 void X_O_Board::display_2()  {
@@ -180,100 +181,151 @@ void X_O_Board::display_3() const {
     }
 }
 
+bool Board::is_draw(Player *player) {
+    if(n_moves==9&& !checkWin(player)){
+        cout<<"OH What a tough game. It ends with DRAW!"<<endl;
+        return true;
+    }
+    else{
+        return false;
+    }
+
+}
 
 
-bool X_O_Board::checkWin(Player* player)  {
+bool X_O_Board::checkWin(Player* player) {
     string symbol = player->get_symbol();
-
     //checking rows
-    if(boardArray[1][1]==symbol&&boardArray[1][2]==symbol&&boardArray[1][3]==symbol){
+    if (boardArray[1][1] == symbol && boardArray[1][2] == symbol && boardArray[1][3] == symbol) {
         return true;
-    }
-    else if(boardArray[2][0]==symbol&&boardArray[2][1]==symbol&&boardArray[2][2]==symbol){
+    } else if (boardArray[2][0] == symbol && boardArray[2][1] == symbol && boardArray[2][2] == symbol) {
         return true;
-    } else if(boardArray[2][1]==symbol&&boardArray[2][2]==symbol&&boardArray[2][3]==symbol){
+    } else if (boardArray[2][1] == symbol && boardArray[2][2] == symbol && boardArray[2][3] == symbol) {
         return true;
-    }
-    else if(boardArray[2][2]==symbol&&boardArray[2][3]==symbol&&boardArray[2][4]==symbol){
+    } else if (boardArray[2][2] == symbol && boardArray[2][3] == symbol && boardArray[2][4] == symbol) {
         return true;
     }
 
     //checking columns
-    if(boardArray[0][2]==symbol&&boardArray[1][2]==symbol&&boardArray[2][2]==symbol){
+    if (boardArray[0][2] == symbol && boardArray[1][2] == symbol && boardArray[2][2] == symbol) {
         return true;
     }
 
     //check diagonaly_right
-    if(boardArray[0][2]==symbol&&boardArray[1][1]==symbol&&boardArray[2][0]==symbol){
+    if (boardArray[0][2] == symbol && boardArray[1][1] == symbol && boardArray[2][0] == symbol) {
         return true;
     }
 
     //check diagonaly_left
-    if(boardArray[0][2]==symbol&&boardArray[1][3]==symbol&&boardArray[2][4]==symbol){
+    if (boardArray[0][2] == symbol && boardArray[1][3] == symbol && boardArray[2][4] == symbol) {
         return true;
     }
 
     return false;
 }
 
-bool X_O_Board::checkWin_2(Player* player)  {
-    string symbol = player->get_symbol();
+int X_O_Board::checkWin_2() {
+    string symbol1 ="X", symbol2 ="O";
 
     //checking rows
-    for (int r = ROWS_2- 1; r >= 0; --r) {
-        int count = 0;
+    for (int r = ROWS_2 - 1; r >= 0; --r) {
+        int countX = 0,countO=0;
         for (int c = 0; c < COLUMNS_2; ++c) {
-            if (boardArray_2[r][c] == symbol) count++;
-            else count = 0;
-            if (count >= 4) return 1;
+            if (boardArray_2[r][c] == symbol1){
+                countX++;
+                countO=0;
+            }
+            else if (boardArray_2[r][c] == symbol2) {
+                countX = 0;
+                countO++;
+            }
+            if (countX>= 4) return -1;
+            else if (countO >= 4) return 2;
         }
     }
 
     //checking columns
     for (int c = 0; c < COLUMNS_2; ++c) {
-        int count = 0;
+        int countX = 0,countO=0;
         for (int r = ROWS_2 - 1; r >= 0; --r) {
-            if (boardArray_2[r][c] == symbol) count++;
-            else count = 0;
-            if (count >= 4) return 1;
+            if (boardArray_2[r][c] == symbol1){
+                countX++;
+                countO=0;
+            }
+            else if (boardArray_2[r][c] == symbol2) {
+                countX = 0;
+                countO++;
+            }
+            if (countX>= 4) return -1;
+            else if (countO >= 4) return 2;
         }
     }
 
     //check diagonaly_right
     for (int r = ROWS_2 - 1; r >= 0; --r) {
-        int count = 0;
+        int countX = 0,countO=0;
         for (int c = 0; c < COLUMNS_2; ++c) {
-            if (boardArray_2[r][c] == symbol) {
+            if (boardArray_2[r][c] == symbol1) {
                 for (int i = 1; i < 4; ++i) {
-                    if (c + i < COLUMNS_2 && r - i >= 0 && boardArray_2[r - i][c + i] == symbol) {
-                        count++;
+                    if (c + i < COLUMNS_2 && r - i >= 0 && boardArray_2[r - i][c + i] == symbol1) {
+                        countX++;
+                        countO=0;
                     } else {
-                        count = 0;
+                        countX = 0;
                         break;
                     }
-                    if (count >= 4) return 1;
+                    if (countX>= 4) return -1;
+                    else if (countO >= 4) return 2;
                 }
-            } else count = 0;
-            if (count >= 4) return 1;
+            } else if (boardArray_2[r][c] == symbol2){
+                countX = 0;
+                for (int i = 1; i < 4; ++i) {
+                    if (c + i < COLUMNS_2 && r - i >= 0 && boardArray_2[r - i][c + i] == symbol2) {
+                        countO++;
+                    } else {
+                        countO=0;
+                        break;
+                    }
+                    if (countX>= 4) return -1;
+                    else if (countO >= 4) return 2;
+                }
+            }
+            if (countX>= 4) return -1;
+            else if (countO >= 4) return 2;
         }
     }
 
-    //check diagonaly_left
+    //check diagonaly_right
     for (int r = ROWS_2 - 1; r >= 0; --r) {
-        int count = 0;
+        int countX = 0,countO=0;
         for (int c = 0; c < COLUMNS_2; ++c) {
-            if (boardArray_2[r][c] == symbol) {
+            if (boardArray_2[r][c] == symbol1) {
                 for (int i = 1; i < 4; ++i) {
-                    if (c - i < COLUMNS_2 && r - i >= 0 && boardArray_2[r - i][c - i] == symbol) {
-                        count++;
+                    if (c - i < COLUMNS_2 && r - i >= 0 && boardArray_2[r - i][c - i] == symbol1) {
+                        countX++;
+                        countO=0;
                     } else {
-                        count = 0;
+                        countX = 0;
                         break;
                     }
-                    if (count >= 4) return 1;
+                    if (countX>= 4) return -1;
+                    else if (countO >= 4) return 2;
                 }
-            } else count = 0;
-            if (count >= 4) return 1;
+            } else if (boardArray_2[r][c] == symbol2){
+                countX = 0;
+                for (int i = 1; i < 4; ++i) {
+                    if (c - i < COLUMNS_2 && r - i >= 0 && boardArray_2[r - i][c - i] == symbol2) {
+                        countO++;
+                    } else {
+                        countO=0;
+                        break;
+                    }
+                    if (countX>= 4) return -1;
+                    else if (countO >= 4) return 2;
+                }
+            }
+            if (countX>= 4) return -1;
+            else if (countO >= 4) return 2;
         }
     }
 

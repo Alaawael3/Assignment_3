@@ -1,9 +1,10 @@
 //
-// Created by lolow on 12/10/2023.
+// Created by lolow on 12/17/2023.
 //
 
-#ifndef TEST_TASK2_BOARD_H
-#define TEST_TASK2_BOARD_H
+#ifndef A3_TASK2_3_YOURGROUP__BOARD_H
+#define A3_TASK2_3_YOURGROUP__BOARD_H
+
 #include <bits/stdc++.h>
 class Player;
 using namespace std;
@@ -22,6 +23,8 @@ protected:
     static string boardArray_3[ROWS_3][COLUMNS_3];
     int n_moves;
 public:
+
+
     virtual void update_board (int x, int y, string mark) = 0;
     virtual void update_board_2 (int x, int y, string mark) = 0;
     virtual bool update_board_3(int x, int y, string mark)=0;
@@ -31,12 +34,14 @@ public:
     virtual bool game_is_over() const = 0;
 
     virtual bool checkWin(Player* player)=0;
-    virtual bool checkWin_2(Player* player) = 0;
+    virtual int checkWin_2() = 0;
     virtual bool checkWin_3()=0;
 
     virtual void display_1() = 0;
     virtual void display_2() = 0;
     virtual void display_3() const=0;
+
+    bool is_draw(Player *player);
 
     virtual bool checkvalid(int x,int y) = 0;
     virtual bool checkvalid_2(int x,int y) = 0;
@@ -81,7 +86,7 @@ public:
     bool update_board_3(int x, int y, string mark);
 
     bool checkWin(Player* player);
-    bool checkWin_2(Player *player)  ;
+    int checkWin_2()  ;
     bool checkWin_3();
 
 
@@ -89,15 +94,18 @@ public:
 
 ///////////////////////////////////////////
 
-class Random_Player: public Player {
+class Random_Player: public Player{
 protected:
     int dimension;
 public:
     // Take a symbol and pass it to parent
+//    int min_max(bool ismax,pair<int,int>& bestMove);
+
     Random_Player (string symbol, int dimension);
     // Generate a random move
     void get_move(int& x, int& y,int gamenomber);
     string get_symbol();
+//    pair<int, int> findBestMove();
 
 };
 
@@ -119,6 +127,4 @@ public:
 };
 
 
-
-
-#endif //TEST_TASK2_BOARD_H
+#endif //A3_TASK2_3_YOURGROUP__BOARD_H
